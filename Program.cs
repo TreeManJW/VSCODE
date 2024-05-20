@@ -14,18 +14,16 @@
         Console.Write($"{numbers[i]} ");
     }
     Console.WriteLine("\nStarting bubbel sorter...");
-    numbers = BubbelSorter(numbers);
+    var sortedNumbers = BubbelSorter(numbers);
     for (int i = 0; i < amountToRandomise; i++)
     {
-        Console.Write($"{numbers[i]} ");
+        Console.Write($"{sortedNumbers[i]} ");
     }
     int numberToSearchFor = rand.Next(1, 1001);
     Console.WriteLine("\nThe program will now search for the number: " + numberToSearchFor);
-    await Task.Delay(1000);
-    (int index, int linearItterations) = LinearSearch(numbers, numberToSearchFor);
+    (int index, int linearItterations) = LinearSearch(sortedNumbers, numberToSearchFor);
     Console.WriteLine($"Found instance of the number at position {index} usng linear search with {linearItterations} itterations. Searching binary.");
-    await Task.Delay(1000);
-    (index, int binaryItterations) = BinarySearch(numbers, numberToSearchFor);
+    (index, int binaryItterations) = BinarySearch(sortedNumbers, numberToSearchFor);
     Console.WriteLine($"Found instance of the number at position {index} usng binary search with {binaryItterations} itterations.");
 }
 
@@ -72,11 +70,11 @@ static (int, int) BinarySearch(int[] numbers, int searchNumber)
         }
         else if (numbers[index] > searchNumber)
         {
-            index = index / 2;
+            index /= 2;
         }
         else if (numbers[index] < searchNumber)
         {
-            index = index * 2;
+            index *= 2;
         }
         else
         {
