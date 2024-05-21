@@ -19,12 +19,26 @@
     {
         Console.Write($"{sortedNumbers[i]} ");
     }
-    int numberToSearchFor = rand.Next(1, 1001);
+    int numberToSearchFor = 0;
+    while (!numbers.Contains(numberToSearchFor))
+    {
+        numberToSearchFor = rand.Next(1, 1001);
+    }
     Console.WriteLine("\nThe program will now search for the number: " + numberToSearchFor);
     (int index, int linearItterations) = LinearSearch(sortedNumbers, numberToSearchFor);
-    Console.WriteLine($"Found instance of the number at position {index} usng linear search with {linearItterations} itterations. Searching binary.");
+    if (index == -1)
+    {
+        Console.WriteLine("Something went wrong with the linear search. Or the search number is absent from the list. Try again later.");
+        break;
+    }
+    Console.WriteLine($"Found instance of the number at position {index} using linear search with {linearItterations} itterations. Searching binary.");
     (index, int binaryItterations) = BinarySearch(sortedNumbers, numberToSearchFor);
-    Console.WriteLine($"Found instance of the number at position {index} usng binary search with {binaryItterations} itterations.");
+    if (index == -1)
+    {
+        Console.WriteLine("Something went wrong with the binary search. Or the search number is absent from the list. Try again later.");
+        break;
+    }
+    Console.WriteLine($"Found instance of the number at position {index} using binary search with {binaryItterations} itterations.");
 }
 
 static int[] BubbelSorter(int[] numbers)
@@ -59,22 +73,23 @@ static (int, int) LinearSearch(int[] numbers, int searchNumber)
 }
 static (int, int) BinarySearch(int[] numbers, int searchNumber)
 {
-    int index = numbers.Length / 2;
+    int indexMax = numbers.Length;
+    int indexMin = 0;
     int itterations = 0;
     for (int i = 0; i < numbers.Length; i++)
     {
         itterations++;
-        if (numbers[index] == searchNumber)
+        if (numbers[(indexMax+indexMin)/2] == searchNumber)
         {
-            return (index, itterations);
+            return ((indexMax+indexMin)/2, itterations);
         }
-        else if (numbers[index] > searchNumber)
+        else if (numbers[(indexMax+indexMin)/2] > searchNumber)
         {
-            index /= 2;
+            indexMax = (indexMax+indexMin)/2;
         }
-        else if (numbers[index] < searchNumber)
+        else if (numbers[(indexMax+indexMin)/2] < searchNumber)
         {
-            index *= 2;
+            indexMin = (indexMax+indexMin)/2;
         }
         else
         {
